@@ -1,0 +1,37 @@
+<!DOCTYPE html>
+<html lang="en" xmlns:th="http://www.thymeleaf.org/">
+<head>
+    <meta charset="UTF-8">
+    <title>Post List</title>
+    <link rel="stylesheet" th:href="@{css/board.css}">
+</head>
+<body>
+<h2>Post List</h2>
+<a th:href="@{/writeform}">게시판 등록</a>
+<table>
+    <thead>
+    <tr th:unless="${boards.isEmpty()}">
+        <th>ID</th>
+        <th>Name</th>
+        <th>Title</th>
+        <th>Created At</th>
+    </tr>
+    </thead>
+    <tbody>
+    <tr th:each="board : ${boards}">
+        <td><a th:href="@{/view(id=${board.id})}" th:text="${board.id}"></a></td>
+        <td><a th:href="@{/view(id=${board.id})}" th:text="${board.name}"></a> </td>
+        <td><a th:href="@{/view(id=${board.id})}" th:text="${board.title}"></a></td>
+        <td><a th:href="@{/view(id=${board.id})}" th:text="${#temporals.format(board.createdAt, 'yyyy/MM/dd')}"></a></td>
+    </tr>
+    </tbody>
+</table>
+<div th:if="${boards.totalPages>1}">
+    <ul>
+        <li th:each="tab : ${#numbers.sequence(1,boards.totalPages)}">
+            <a th:href="@{/list(page=${tab})}" th:text="${tab}" ></a>
+        </li>
+    </ul>
+</div>
+</body>
+</html>
